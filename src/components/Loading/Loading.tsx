@@ -3,7 +3,7 @@ import React from 'react'
 import { loadingerror } from './Loading.style'
 
 type Props = {
-    loadingsitiuation?: boolean,
+
     loadingmessage? :string
 }
 

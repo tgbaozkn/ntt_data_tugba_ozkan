@@ -1,14 +1,12 @@
 import { StyleSheet,Dimensions } from "react-native";
-import { heightPercentageToDP } from "react-native-responsive-screen";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
 import { Colors } from "../../../styles";
 
 export const loadingerror = StyleSheet.create({
     container: {
-        flex: 1,
-       
-        justifyContent: "center",
-        alignItems: "center",
-    
+        width: widthPercentageToDP(100),
+        height: heightPercentageToDP(100),
+        alignSelf:"center"
     },
     message: {
         fontSize: 25,

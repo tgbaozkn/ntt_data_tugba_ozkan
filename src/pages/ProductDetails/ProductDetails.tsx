@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import {
   fetchProducts,
@@ -8,6 +8,8 @@ import {
 import Card from "../../components/Card/Card";
 import { productdetailstyle } from "./ProductDetails.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../../components/Loading/Loading";
+import { loadingerror } from "../../components/Loading/Loading.style";
 
 type Props = {};
 
@@ -20,25 +22,43 @@ const ProductDetails = (props: Props) => {
     // Komponent mount edildiğinde ürünleri getir
     dispatch(fetchProducts()); // Ürünleri getirmek için fetchProducts işlevi dispatch ediliyor
   }, [dispatch]); // Bağımlılık dizisi içerisinde dispatch yer alıyor, böylece sadece dispatch değiştiğinde useEffect tekrar çalışır
-  const addFav = async ({ item }: { item: any }) => {
-  try {
-    // Önce mevcut favori listesini al
-    const currentFavsString = await AsyncStorage.getItem("favs");
-  
-    // Eğer currentFavsString null ise, boş bir dizi olarak ata
-    let currentFavs: any[] = [];
-    if (currentFavsString !== null) {
-      currentFavs = JSON.parse(currentFavsString);
+  const [isFavourited, setIsFavourited] = useState<boolean>(false);
+ let newFavourites: any[] = [];
+  useEffect(() => {
+    async function getFavourites() {
+      const favourites = await AsyncStorage.getItem("favourites");
+
+    if (favourites !== null) {
+      newFavourites = await JSON.parse(favourites);
+
     }
+  }
+    getFavourites();
+    
+    
+  },[newFavourites])
+  
+  const addFav = async ({ selecteditem }: { selecteditem: any }) => {
+  
+  try {
+    
+    if (newFavourites) {
+      let isNew: any = newFavourites.filter((prod) => prod.selecteditem.id === selecteditem.id);
 
-    // Yeni öğeyi favori listesine ekle
-    currentFavs.push(item);
+      console.log(isNew.length<1)
 
-    // Güncellenmiş favori listesini AsyncStorage'e geri kaydet
-    await AsyncStorage.setItem("favs", JSON.stringify(currentFavs));
+    if (isNew.length<1) {
+   
+         newFavourites.push({ selecteditem });
+      
+    }
+      await AsyncStorage.setItem("favourites", JSON.stringify(newFavourites));
+      
+}
+   
+    
 
-    console.log("Favori eklendi:", item);
-    console.log(currentFavs);
+  
   } catch (e) {
     console.log("Favori eklenirken bir hata oluştu:", e);
   }
@@ -57,12 +77,15 @@ const ProductDetails = (props: Props) => {
         viewStlye={productdetailstyle.container}
         descriptionStyle={productdetailstyle.descView}
         desctextStyle={productdetailstyle.decText}
-        onClick={()=>addFav({item})}
+         onClick={() => addFav({ selecteditem:item })}
+    
+       
       />
     ); //Flatlistin render ettiği component
   };
   return (
     <View>
+      {selectedProducts.loading ?<Loading loadingmessage="Loading..." />: null}
       <FlatList
         data={selectedProducts.products}
         renderItem={renderProductDetail}

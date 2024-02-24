@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView } from "react-native";
+import { FlatList, SafeAreaView,Text } from "react-native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import {
@@ -27,7 +27,7 @@ const ProductList = (props: Props) => {
   const [col, setCol] = useState<number>(2);
   const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
   const [item, setItem] = useState<{ [key: string]: any }>({});
-  const loadingmessage: string = "Loading...";
+
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["50%"], []);
 
@@ -50,7 +50,7 @@ const ProductList = (props: Props) => {
 
   return (
     <SafeAreaView>
-      <Loading loadingmessage={loadingmessage} />
+       {selectedProducts.loading ?<Loading loadingmessage="Loading..." />: null}
       <Error errormessage={selectedProducts.error} />
       <FlatList
         data={selectedProducts.products}

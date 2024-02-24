@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -11,7 +11,7 @@ const Favorites = (props: Props) => {
     
   
       try {
-        const currentFavsString = await AsyncStorage.getItem("favs");
+        const currentFavsString = await AsyncStorage.getItem("favourites");
         const dataArray = currentFavsString ? await JSON.parse(currentFavsString) : "";
         setFavArray(dataArray);
       } catch (e) {
@@ -23,7 +23,9 @@ const Favorites = (props: Props) => {
   },[favArray])
   return (
     <View>
-      <Text>{favArray?.length }</Text>
+      <FlatList
+        data={favArray}
+        renderItem={({ item }) => <Text>{ item?.name}</Text>} />
     </View>
   )
 }
