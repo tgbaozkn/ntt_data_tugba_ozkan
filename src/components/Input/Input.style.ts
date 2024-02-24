@@ -9,7 +9,7 @@ export const inputstyle = StyleSheet.create({
         borderRadius: 20,
 
         alignItems: "center",
-        backgroundColor:Colors.pastelgreenlight,
+        backgroundColor:"rgba(255,255,255,1)",
         margin: heightPercentageToDP(1),
         padding: Platform.OS==="ios"? heightPercentageToDP(2):heightPercentageToDP(.8),
         width: width * 0.9,
@@ -25,8 +25,9 @@ export const inputstyle = StyleSheet.create({
         marginLeft:5
     },
     input: {
-       
-        padding: height * 0.015,
+        fontSize:Platform.OS ==="ios"? heightPercentageToDP(2) : heightPercentageToDP(1.8),
+       width:width*1,
+        padding: height * 0.01,
         color: "black",
        
     }

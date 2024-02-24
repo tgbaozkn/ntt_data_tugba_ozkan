@@ -10,22 +10,25 @@ import {
 import Button from "../../components/Button/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 
 type Props = {
-  
+  navigation: NavigationProp<any, any>;
 };
 
 const Login = (props: Props) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const nav = useNavigation()
+
   const onLoginPressed = () => {
+
     if (!username || !password) {
       alert("Lütfen alanları doldurun");
     } else {
+      console.log("setuser öncesi")
       setUser();
+      props.navigation.navigate("MyTabs");
     }
   };
   const setUser = async () => {
@@ -53,9 +56,12 @@ const Login = (props: Props) => {
       <Image
         source={require("../../../assets/images/nttdataimage.jpg")}
         style={{
-          width: widthPercentageToDP(100),
-          resizeMode: "contain",
+          width: widthPercentageToDP(85),
+          resizeMode: "cover",
           marginBottom: heightPercentageToDP(10),
+          borderWidth: 0.1,
+          marginHorizontal:widthPercentageToDP(7.5),
+          borderRadius:20,
         }}
       />
       <Text

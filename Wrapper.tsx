@@ -6,33 +6,57 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import Login from "./src/pages/Login/Login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
-
+import SplashScreen from "./src/pages/SplashScreen/SplashScreen";
+import ProductDetails from "./src/pages/ProductDetails/ProductDetails";
+import ProductList from "./src/pages/ProductList/ProductList";
+import Favorites from "./src/pages/Favorites/Favorites";
+import Cart from "./src/pages/Cart/Cart";
+import Home from "./src/pages/Home/Home";
+const Stack = createNativeStackNavigator();
 export default function Wrapper() {
-  const [isLogin, setIsLogin] = useState<boolean>();
-  const [data, setData] = useState<string>();
-
+  const [data, setData] = useState<any>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  let stackscreen1: JSX.Element | null;
   const getData = async () => {
-  
     try {
       const jsonValue = await AsyncStorage.getItem("login");
-  
-      const newObject: any = jsonValue ? JSON.parse(jsonValue) : null;
-      setData(newObject);
+      setData(jsonValue);
     } catch (e) {
       console.log(e);
     }
   };
   useEffect(() => {
-    getData().finally(() => (data ? setIsLogin(true) : setIsLogin(false)));
-  }, [data, isLogin,getData]);
+    getData();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+  if (data) {
+    stackscreen1 = <Stack.Screen name="MyTabs" component={MyTabs} />;
+  } else {
+    stackscreen1 = <Stack.Screen name="Login" component={Login} />;
+  }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
         <Provider store={store}>
           <NavigationContainer>
-         
-            {isLogin ? <MyTabs /> : <Login />}
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {isLoading ? (
+                <Stack.Screen name="SplashScreen" component={SplashScreen} />
+              ) : (
+                stackscreen1
+              )}
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="ProductDetails" component={ProductDetails} />
+              <Stack.Screen name="ProductList" component={ProductList} />
+              <Stack.Screen name="Favorites" component={Favorites} />
+              <Stack.Screen name="Cart" component={Cart} />
+              <Stack.Screen name="Login" component={Login} />
+
+            </Stack.Navigator>
           </NavigationContainer>
         </Provider>
       </BottomSheetModalProvider>

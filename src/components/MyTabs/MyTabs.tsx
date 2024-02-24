@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator, BottomTabNavigationOptions   } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import ProductList from '../../pages/ProductList/ProductList';
 import ProductDetails from "../../pages/ProductDetails/ProductDetails";
 import Cart from "../../pages/Cart/Cart";
 import Favorites from "../../pages/Favorites/Favorites";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // RootTabParamList tipini tanımla
 type RootTabParamList = {
@@ -43,6 +44,7 @@ const getTabBarIcon = ({ route, focused, color, size }: { route: any, focused: b
   return null;
 };
 
+ 
   return (
  
     <Tab.Navigator
