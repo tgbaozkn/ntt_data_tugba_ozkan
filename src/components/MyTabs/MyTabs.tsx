@@ -46,12 +46,16 @@ const getTabBarIcon = ({ route, focused, color, size }: { route: any, focused: b
   return (
  
     <Tab.Navigator
-        initialRouteName="ProductList"
-        screenOptions={({ route }) => ({
+      initialRouteName="Home"
+   
+      screenOptions={({ route }) => ({
+      
           tabBarIcon: ({ focused, color, size }) => getTabBarIcon({ route, focused, color, size }),
          
         
-        })}
+        })
+        
+        }
       >
         
         
