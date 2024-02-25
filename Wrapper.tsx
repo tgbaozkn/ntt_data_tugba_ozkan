@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 export default function Wrapper() {
   const [data, setData] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  let stackscreen1: JSX.Element | null;
+
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("login");
@@ -33,11 +33,7 @@ export default function Wrapper() {
       setIsLoading(false);
     }, 2000);
   }, []);
-  if (data) {
-    stackscreen1 = <Stack.Screen name="MyTabs" component={MyTabs} />;
-  } else {
-    stackscreen1 = <Stack.Screen name="Login" component={Login} />;
-  }
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <BottomSheetModalProvider>
@@ -47,14 +43,14 @@ export default function Wrapper() {
               {isLoading ? (
                 <Stack.Screen name="SplashScreen" component={SplashScreen} />
               ) : (
-                stackscreen1
+                 <Stack.Screen name="Login" component={Login} />
               )}
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="ProductDetails" component={ProductDetails} />
               <Stack.Screen name="ProductList" component={ProductList} />
               <Stack.Screen name="Favorites" component={Favorites} />
               <Stack.Screen name="Cart" component={Cart} />
-              <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="MyTabs" component={MyTabs} />
 
             </Stack.Navigator>
           </NavigationContainer>

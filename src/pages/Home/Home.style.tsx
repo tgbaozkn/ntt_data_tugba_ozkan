@@ -1,4 +1,4 @@
-import { StyleSheet,Dimensions, Platform } from "react-native";
+import { StyleSheet,Dimensions } from "react-native";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 import { Colors } from "../../../styles";
 
@@ -15,14 +15,13 @@ export const homestyle = StyleSheet.create({
         fontSize: heightPercentageToDP(2.5),
         color: Colors.pastelbluedark,
         fontWeight: "bold",
-        marginBottom: heightPercentageToDP(2),
-
+     
   
         padding:height*0.02,
         textAlign:"center"
     },
     homecardview: {
-        padding: height*0.03,
+        padding: height*0.02,
         borderWidth: 1,
         margin: height*0.01,
         borderRadius: 10,

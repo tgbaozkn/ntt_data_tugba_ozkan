@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import {  Text, Image } from "react-native";
 import React, { useState } from "react";
 
 import Input from "../../components/Input/Input";
@@ -10,7 +10,7 @@ import {
 import Button from "../../components/Button/Button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/native";
 
 
 type Props = {
@@ -22,13 +22,15 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState<string>("");
 
   const onLoginPressed = () => {
-
     if (!username || !password) {
       alert("Lütfen alanları doldurun");
-    } else {
+    } else if (username.toLocaleLowerCase() === "nttdata" && password === "hireme") {
       console.log("setuser öncesi")
       setUser();
       props.navigation.navigate("MyTabs");
+      
+    }else {
+        alert("Kullanıcı adı ya da şifre yanlış!! Kullanıcı adı : nttdata, Şifre : hireme")
     }
   };
   const setUser = async () => {

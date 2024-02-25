@@ -4,3 +4,4 @@ export const pastelgreenlight:string = "#e4f8b4";
 export const pastelgreendark: string = "#85f4a6";
 export const pastelorangelittledark: string = "#f4a685";
 export const pastelbluedark: string = "#1e6fac";
+export const pastelyellowlight: string ="#fffde0";

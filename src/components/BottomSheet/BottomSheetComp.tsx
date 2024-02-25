@@ -1,10 +1,13 @@
-import { View, Text, ViewStyle, Animated, Image } from "react-native";
-import React, { useEffect, useMemo, useRef } from "react";
+import { View, Text, Image } from "react-native";
+import React from "react";
 import { bottomsheetstyle } from "./BottomSheet.style";
-import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
-import { Portal, PortalHost } from "@gorhom/portal";
+import
+{ BottomSheetModal } from "@gorhom/bottom-sheet";
+
 import { useReducedMotion } from "react-native-reanimated";
-import { Colors } from "../../../styles";
+
+import MapView from "react-native-maps";
+import { heightPercentageToDP, widthPercentageToDP } from "react-native-responsive-screen";
 type Props = {
   show?: boolean;
   item?: any;
@@ -12,10 +15,13 @@ type Props = {
   bottomSheetRef?: any;
   snapPoints?: any;
   index?: number;
+  isInHome?: boolean;
+  latitude?: string;
+  longtitude?: string;
 };
 
 const BottomSheetComp = (props: Props) => {
-  const snapPoints = useMemo(() => [1, "50%"], []); //React.useMemo kullanarak, bu snap noktaları bir kez oluşturulur ve daha sonra yeniden hesaplanmaz. Bu, performansı artırabilir, çünkü snap noktaları her yeniden render işleminde yeniden hesaplanmak zorunda kalmaz.
+  
   const handleSheetChanges = React.useCallback((index: number) => {
     console.log("handleSheetChanges", index);
   }, []);
@@ -31,16 +37,35 @@ const BottomSheetComp = (props: Props) => {
       onChange={handleSheetChanges}>
       <View style={bottomsheetstyle.container}>
         <Image
-          source={{ uri: props.item.imageUrl }}
+          source={{ uri: props.item?.imageUrl }}
           style={bottomsheetstyle.image}
         />
-        <Text style={bottomsheetstyle.name}>{props.item.name}</Text>
-        <Text style={bottomsheetstyle.description}>{props.item.description}</Text>
+        <Text style={bottomsheetstyle.name}>{props.item?.name}</Text>
+        <Text style={bottomsheetstyle.description}>
+          {props.item?.description}
+        </Text> 
+        {props.isInHome? <Image source={require("../../../assets/images/trmap.jpg")} style={{ height: heightPercentageToDP(20), resizeMode: "stretch", width: widthPercentageToDP(80) }} />:null}
 
-          
-    
-          <Text  style={bottomsheetstyle.othertext}>{props.item.shippingMethod}  {props.item.price} TL</Text>
-      
+        {props.latitude && props.longtitude? (
+          <View style={{ height: "100%", width: "100%" }}>
+        
+            <Text style={{ textAlign: "center" }}>Konum bilgileri: Enlem:{props.latitude}, Boylam :{props.longtitude}</Text>
+            
+            <MapView
+              style={{position:"absolute",top:0}}
+              initialRegion={{
+              latitude: parseFloat(props.latitude),
+              longitude: parseFloat(props.longtitude),
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+            />
+            
+        </View>
+        ) : null}
+        {props.item?.price ? <Text style={bottomsheetstyle.othertext}>
+          {props.item?.shippingMethod} {props.item?.price} TL
+        </Text> : null}
       </View>
     </BottomSheetModal>
   );

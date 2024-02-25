@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Animated, Image } from "react-native";
+import { View,  StyleSheet, Animated, Image } from "react-native";
 import React, { useEffect, useRef } from "react";
 import {
   heightPercentageToDP,

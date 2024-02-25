@@ -1,10 +1,12 @@
 import { View, Text ,FlatList, Image} from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect,  useState } from 'react'
 
 import HomeCard from './HomeCard';
 import { useNavigation } from '@react-navigation/native';
 import { homestyle } from './Home.style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LocationComponent from '../../components/Location/LocationComponent';
+
 
 type Props = {
   
@@ -14,6 +16,7 @@ const Home = (props: Props) => {
   const mixedArray: string[] = ["Product List", "Product Details", "Favorites", "Cart", "Logout"];
   const navigation: any = useNavigation()
   const [data, setData] = useState<any>();
+   
   useEffect(() => {
      const getData = async () => {
       try {
@@ -26,17 +29,25 @@ const Home = (props: Props) => {
     };
     getData();
   
+
   })
  const renderArray = ({ item }: { item: string }) => {
   return (
     <HomeCard item={item}  navigation={navigation}/>
   );
-};
+  };
+
+
+
+  
   return (
     <View style={homestyle.container}>
       <Image source={require("../../../assets/images/nttdatalogo.png")} style={homestyle.image}/>
-      <Text style={homestyle.title}>Dear {data?.username}, Welcome to the Home Page!</Text>
+      <Text style={homestyle.title}>Dear {data?.username.toUpperCase()}, Welcome to the Home Page!</Text>
+      <LocationComponent/>
       <FlatList data={mixedArray} renderItem={renderArray} />
+     
+       
     </View>
   )
 }
