@@ -1,5 +1,9 @@
 # NTT_DATA_TUGBA_OZKAN
 
+
+https://github.com/tgbaozkn/ntt_data_tugba_ozkan/assets/39098806/2bb8bafc-b5d6-4150-b9df-25a96fe1dce1
+
+
 Bu proje, mülakat sürecinde kendimi geliştirmek amacıyla oluşturulmuştur.
 
 ## Kurulum
